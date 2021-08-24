@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent {
+        label 'coco'
+    }
+
+    environment {
+        APP_NAME = 'cnn-fear-and-greed-api'
+    }
 
     stages {
         stage('Build') {

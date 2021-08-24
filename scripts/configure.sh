@@ -35,3 +35,7 @@ sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" scripts/push.s
 cp docker-compose.prod.yml.dist docker-compose.prod.yml
 sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" docker-compose.prod.yml
 sed -i "s|stuff.prod.google.com|${DEPLOY_HOST}|" docker-compose.prod.yml
+
+cp scripts/notification.sh.dist scripts/notification.sh
+sed -i "s|<app-name>|${APP_NAME}|" scripts/notification.sh
+sed -i "s|<discord-webhoook-url>|${DISCORD_WEBHOOK_URL}|" scripts/notification.sh
