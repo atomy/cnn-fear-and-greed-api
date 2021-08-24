@@ -1,0 +1,11 @@
+.idea/
+vendor/
+*.iml
+composer.lock
+/logs/*
+docker-compose.override.yml
+.phpunit.result.cache
+current_version
+docker-compose.prod.yml
+docker-compose.yml
+nohup.out

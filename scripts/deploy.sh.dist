@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+if [[ ! -f "docker-compose.prod.yml" ]]
+then
+  echo "Missing file *docker-compose.prod.yml*!"
+  exit 1
+fi
+
+scp ~/.docker/config.json app@1.1.1.1:~/.docker/config.json
+scp docker-compose.prod.yml app@1.1.1.1:/home/app/apps/stuff.prod.google.com/docker-compose.yml
+
+ssh app@1.1.1.1 "cd /home/app/apps/stuff.prod.google.com && docker-compose pull && docker-compose up -d"

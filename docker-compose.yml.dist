@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  cnn-fear-and-greed-php:
+    image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest
+    volumes:
+      - .:/var/www/
+      - php-sock:/sock
+    environment:
+      - CNN_SITE=https://money.cnn.com/data/fear-and-greed/
+
+  cnn-fear-and-greed-nginx:
+    image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-nginx:latest
+    volumes:
+      - .:/var/www/
+      - ./scripts/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - php-sock:/sock
+    ports:
+      - 8003:80
+    depends_on:
+      - cnn-fear-and-greed-php
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 1s
+      timeout: 5s
+      retries: 30
+
+  cnn-fear-and-greed-phiremock:
+    image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest
+    volumes:
+      - .:/var/www/
+    command: vendor/bin/phiremock -i 0.0.0.0 -p 80
+
+volumes:
+  php-sock:

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -e
+
+docker run --rm -v $(pwd):/proj -eUID=`id -u` -eGID=`id -g` busybox sh -c 'chown -R ${UID}:${GID} /proj'
+
+rm -rf composer.lock
+rm -rf vendor/
+rm -rf logs/
+
+mkdir logs && chmod 777 logs
+
+VERSION=`git describe --abbrev=0 --tags`
+
+if [[ ! -z "${VERSION}" ]]
+then
+  echo ${VERSION} > current_version
+fi
+
+docker run --rm -v $(pwd):/proj busybox sh -c 'chmod -R 777 /proj/logs'
+
+if [ "${1}" == "dev" ] ; then
+  docker build -f scripts/docker/php/Dockerfile_dev -t atomy/cnn-fear-and-greed-php .
+elif [ "${1}" != "" ] ; then
+  echo "Invalid env ${1} given!"
+  exit 1
+else
+  docker build -f scripts/docker/php/Dockerfile -t atomy/cnn-fear-and-greed-php .
+fi
+
+docker build -f scripts/docker/nginx/Dockerfile -t atomy/cnn-fear-and-greed-nginx .
+
+docker run -v $(pwd):/var/www -w /var/www atomy/cnn-fear-and-greed-php php composer.phar install
+
+# rebuild container, since files changed
+docker build -f scripts/docker/php/Dockerfile -t atomy/cnn-fear-and-greed-php .
+
+docker tag atomy/cnn-fear-and-greed-nginx:latest xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-nginx:latest
+docker tag atomy/cnn-fear-and-greed-php:latest xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest

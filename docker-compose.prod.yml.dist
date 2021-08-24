@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  cnn-fear-and-greed-php:
+    image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest
+    volumes:
+      - php-sock:/sock
+    environment:
+      - CNN_SITE=https://money.cnn.com/data/fear-and-greed/
+
+  cnn-fear-and-greed-nginx:
+    image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-nginx:latest
+    volumes:
+      - php-sock:/sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=iot-media-api-prod"
+      - "traefik.frontend.rule=Host:stuff.prod.google.com"
+      - "traefik.docker.network=web"
+    depends_on:
+      - cnn-fear-and-greed-php
+    networks:
+      - "web"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
+
+volumes:
+  php-sock:
