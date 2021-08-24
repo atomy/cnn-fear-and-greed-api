@@ -2,17 +2,26 @@ pipeline {
     agent any
 
     stages {
-        stage('Configure') {
-            steps {
-                echo 'Building...'
-                sh './scripts/configure.sh'
-            }
-        }
-
         stage('Build') {
             steps {
+                withCredentials([string(credentialsId: 'ecr-prefix', variable: 'ECR_PREFIX'),
+                    string(credentialsId: 'discord-webhook-release-url', variable: 'DISCORD_WEBHOOK_URL'),
+                    string(credentialsId: 'cnn-fear-greed-api-deploy-host', variable: 'DEPLOY_HOST'),
+                    string(credentialsId: 'cnn-fear-greed-api-deploy-login', variable: 'DEPLOY_LOGIN'),]) {
+                        echo 'Configuring...'
+                        sh './scripts/configure.sh'
+                        echo 'Configuring...DONE'
+                }
+
+                sshagent (credentials: ['github-iogames-jenkins']) {
+                    echo 'Auto-tagging...'
+                    sh './scripts/auto-tag.sh'
+                    echo 'Auto-tagging...DONE'
+                }
+
                 echo 'Building...'
                 sh './scripts/build.sh'
+                echo 'Building...DONE'
             }
         }
 
