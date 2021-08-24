@@ -1,5 +1,4 @@
 build.sh
 deploy.sh
 push.sh
-test.sh
 notification.sh

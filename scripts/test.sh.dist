@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -e
-
-docker run -v $(pwd):/var/www xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest /bin/sh -c "php vendor/bin/phpunit -c phpunit.xml tests/"

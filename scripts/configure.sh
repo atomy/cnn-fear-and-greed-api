@@ -17,8 +17,9 @@ if [ -z "${ECR_PREFIX}" ] ; then
   exit 1
 fi
 
-rm -f scripts/deploy.sh
 rm -f scripts/build.sh
+rm -f scripts/deploy.sh
+rm -f scripts/notification.sh
 rm -f scripts/push.sh
 rm -f docker-compose.prod.yml
 
@@ -28,9 +29,6 @@ sed -i "s|stuff.prod.google.com|${DEPLOY_HOST}|" scripts/deploy.sh
 
 cp scripts/build.sh.dist scripts/build.sh
 sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" scripts/build.sh
-
-cp scripts/test.sh.dist scripts/test.sh
-sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" scripts/test.sh
 
 cp scripts/push.sh.dist scripts/push.sh
 sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" scripts/push.sh
