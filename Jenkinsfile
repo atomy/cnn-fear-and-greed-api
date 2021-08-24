@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Configure') {
+            steps {
+                echo 'Building...'
+                sh './scripts/configure.sh'
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Building...'
