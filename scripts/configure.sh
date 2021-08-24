@@ -22,6 +22,7 @@ rm -f scripts/deploy.sh
 rm -f scripts/notification.sh
 rm -f scripts/push.sh
 rm -f docker-compose.prod.yml
+rm -f docker-compose.yml
 
 cp scripts/deploy.sh.dist scripts/deploy.sh
 sed -i "s|app@1.1.1.1|${DEPLOY_LOGIN}|" scripts/deploy.sh
@@ -36,6 +37,9 @@ sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" scripts/push.s
 cp docker-compose.prod.yml.dist docker-compose.prod.yml
 sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" docker-compose.prod.yml
 sed -i "s|stuff.prod.google.com|${DEPLOY_HOST}|" docker-compose.prod.yml
+
+cp docker-compose.yml.dist docker-compose.yml
+sed -i "s|xxxx.dkr.ecr.eu-central-1.amazonaws.com|${ECR_PREFIX}|" docker-compose.yml
 
 cp scripts/notification.sh.dist scripts/notification.sh
 sed -i "s|<app-name>|${APP_NAME}|" scripts/notification.sh
