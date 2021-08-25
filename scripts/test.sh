@@ -21,4 +21,4 @@ while true; do
 done
 
 docker-compose exec -T cnn-fear-and-greed-php /bin/sh -c "php vendor/bin/phpunit -c phpunit.xml tests/"
-docker-compose down
+docker-compose down || true
