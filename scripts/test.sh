@@ -3,6 +3,7 @@
 set -e
 
 function shutdown() {
+  echo "shutdown()"
   docker-compose down
 }
 
@@ -21,4 +22,7 @@ while true; do
 done
 
 docker-compose exec -T cnn-fear-and-greed-php /bin/sh -c "php vendor/bin/phpunit -c phpunit.xml tests/"
-docker-compose down || true
+
+set +e
+docker-compose down
+set -e
