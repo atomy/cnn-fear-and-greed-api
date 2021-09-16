@@ -61,7 +61,7 @@ class PageTest extends TestCase
         self::assertNotNull($bodyContent);
         self::assertNotNull(json_decode($bodyContent, true), $bodyContent);
         self::assertSame(['all' => [
-                '25 (Extreme Fear)',
+                '25  (Extreme Fear)',
                 'Previous Close: 22 (Extreme Fear)',
                 '1 Week Ago: 43 (Fear)',
                 '1 Month Ago: 25 (Extreme Fear)',
