@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 function shutdown() {
   echo "shutdown()"
@@ -13,8 +12,16 @@ trap shutdown SIGINT
 echo "Starting up..."
 docker-compose up -d
 
-while ! docker-compose exec cnn-fear-and-greed-php /bin/sh scripts/isReady.sh; do
+i=0
+
+while  docker-compose exec cnn-fear-and-greed-php /bin/sh scripts/isReady.sh; do
+  if [ ${i} -gt 20 ] ; then
+    echo "Timeout waiting for container to start!"
+    exit 1
+  fi
+
   sleep 1
+  i=$((i+1))
 done
 
 echo "Running tests..."
