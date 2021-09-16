@@ -14,7 +14,7 @@ docker-compose up -d
 
 i=0
 
-while  docker-compose exec cnn-fear-and-greed-php /bin/sh scripts/isReady.sh; do
+while ! docker-compose exec -T cnn-fear-and-greed-php /bin/sh scripts/isReady.sh; do
   if [ ${i} -gt 20 ] ; then
     echo "Timeout waiting for container to start!"
     exit 1
