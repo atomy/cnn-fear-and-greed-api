@@ -63,7 +63,7 @@ class PageTest extends TestCase
         self::assertSame(['all' => [
                 '25 (Extreme Fear)',
                 'Previous Close: 22 (Extreme Fear)',
-                '1 Week Ago: 43 (Fear)',
+                '1 Week Ago : 43 (Fear)',
                 '1 Month Ago: 25 (Extreme Fear)',
                 '1 Year Ago: 70 (Greed)'
             ],
