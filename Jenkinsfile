@@ -7,8 +7,8 @@ pipeline {
         APP_NAME = 'cnn-fear-and-greed-api'
     }
 
-    stages {
-        timeout(unit: 'SECONDS', time: 120) {
+    timeout(unit: 'SECONDS', time: 120) {
+        stages {
             stage('Build') {
                 steps {
                     withCredentials([string(credentialsId: 'ecr-prefix', variable: 'ECR_PREFIX'),
@@ -31,18 +31,15 @@ pipeline {
                     echo 'Building...DONE'
                 }
             }
-        }
 
-        timeout(unit: 'SECONDS', time: 60) {
+
             stage('Test') {
                 steps {
                     echo 'Run tests...'
                     sh './scripts/test.sh'
                 }
             }
-        }
 
-        timeout(unit: 'SECONDS', time: 30) {
             stage('Push ECR') {
                 steps {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-ecr', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
@@ -55,9 +52,7 @@ pipeline {
                     }
                 }
             }
-        }
 
-        timeout(unit: 'SECONDS', time: 60) {
             stage('Deploy') {
                 steps {
                     echo 'Deploying....'
