@@ -33,26 +33,37 @@ class PageClient
      }
 
     /**
-     * Access cnn fear and greed page and return its html-content.
+     * Access cnn fear and greed data and returns it's json string.
      */
     public function get(): string
     {
+        $currentDateTime = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $currentDateTimeFormatted = $currentDateTime->format('Y-m-d');
+
+        $dataUrl = EnvHelper::get('CNN_SITE') . $currentDateTimeFormatted;
+
         try {
             $client = new Client();
-            $this->container->getLogger()->info(' Issuing GET ' . EnvHelper::get('CNN_SITE') . ' ...');
-            $response = $client->request('GET', EnvHelper::get('CNN_SITE'));
-
+            $this->container->getLogger()->info(' Issuing GET ' . $dataUrl . ' ...');
+            // Make the request with the specified User-Agent
+            $response = $client->request('GET', $dataUrl, [
+                'headers' => [
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
+                    'Referer' => 'https://edition.cnn.com/',
+                    'Origin' => 'https://edition.cnn.com',
+                ]
+            ]);
             $responseBody = $response->getBody()->getContents();
 
             if (200 === $response->getStatusCode()) {
-                $this->container->getLogger()->info(' Issuing GET ' . EnvHelper::get('CNN_SITE') . ' ... SUCCESS');
+                $this->container->getLogger()->info(' Issuing GET ' . $dataUrl . ' ... SUCCESS');
                 return $responseBody;
             }
 
-            $this->container->getLogger()->error(' Issuing GET ' . EnvHelper::get('CNN_SITE') . ' ... ERROR (' . $response->getStatusCode() . ')');
+            $this->container->getLogger()->error(' Issuing GET ' . $dataUrl . ' ... ERROR (' . $response->getStatusCode() . ')');
             throw new \RuntimeException('Failed to retrieve CNN_SITE-page');
         } catch (GuzzleException $guzzleException) {
-            $this->container->getLogger()->info(' Issuing GET ' . EnvHelper::get('CNN_SITE') . ' ... ERROR (' . $guzzleException->getMessage() . ')');
+            $this->container->getLogger()->info(' Issuing GET ' . $dataUrl . ' ... ERROR (' . $guzzleException->getMessage() . ')');
             /** @var Logger $monolog */
             $monolog = $this->container->getLogger();
             $monolog->error($guzzleException);

@@ -1,18 +1,18 @@
 {
   "name":"atomy/fear-and-greed-index-api",
   "require":{
-    "php": "~8.0.0",
-    "slim/slim": "~4.8.0",
-    "monolog/monolog": "^2.0",
-    "guzzlehttp/guzzle": "^6.5",
-    "slim/http": "^1.0",
-    "slim/psr7": "^1.0",
-    "paquettg/php-html-parser": "^2.2",
+    "php": "~8.3.0",
+    "slim/slim": "^4.14.0",
+    "monolog/monolog": "^3.7.0",
+    "guzzlehttp/guzzle": "^7.8.1",
+    "slim/http": "^1.4.0",
+    "slim/psr7": "^1.7.0",
+    "paquettg/php-html-parser": "^3.1.1",
     "ext-json": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "^8.5",
+    "phpunit/phpunit": "^11.2.7",
     "mcustiel/phiremock": "^2.1.1"
   },
   "autoload":{

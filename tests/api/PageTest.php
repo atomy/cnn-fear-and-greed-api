@@ -35,11 +35,11 @@ class PageTest extends TestCase
         $this->phiremock->reset();
 
         $expectation = Phiremock::on(
-            A::getRequest()->andUrl(Is::equalTo('/'))
+            A::getRequest()->andUrl(Is::containing('/'))
         )->then(
             Respond::withStatusCode(200)
-                ->andBody(file_get_contents(ROOT_PATH . '/tests/data/page.html'))
-                ->andHeader('Content-Type', 'text/html')
+                ->andBody(file_get_contents(ROOT_PATH . '/tests/data/api-result.json'))
+                ->andHeader('Content-Type', 'application/json')
         );
 
         $this->phiremock->createExpectation($expectation);
@@ -61,11 +61,11 @@ class PageTest extends TestCase
         self::assertNotNull($bodyContent);
         self::assertNotNull(json_decode($bodyContent, true), $bodyContent);
         self::assertSame(['all' => [
-                '25 (Extreme Fear)',
-                'Previous Close: 22 (Extreme Fear)',
-                '1 Week Ago: 43 (Fear)',
-                '1 Month Ago: 25 (Extreme Fear)',
-                '1 Year Ago: 70 (Greed)'
+                '56 (Greed)',
+                'Previous Close: 52 (Neutral)',
+                '1 Week Ago: 53 (Neutral)',
+                '1 Month Ago: 46 (Neutral)',
+                '1 Year Ago: 78 (Extreme Greed)'
             ],
         ],
             json_decode($bodyContent, true, 512, JSON_THROW_ON_ERROR)

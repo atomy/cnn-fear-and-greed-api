@@ -11,7 +11,7 @@ use Slim\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 if (!empty($_SERVER['HTTP_USER_AGENT']) && $_SERVER['HTTP_USER_AGENT'] === \App\EnvHelper::PHPUNIT_USER_AGENT) {
-    putenv('CNN_SITE=http://cnn-fear-and-greed-phiremock');
+    putenv('CNN_SITE=http://cnn-fear-and-greed-phiremock/');
 }
 
 // Instantiate App
@@ -28,10 +28,10 @@ $c->set(PlainTextErrorRenderer::class, new JsonErrorRenderer());
 $c->set(HtmlErrorRenderer::class, new JsonErrorRenderer());
 
 $app->get('/index', function (Request $request, Response $response, $args) use ($app) {
-    return (new \Fearandgreed\Controller\IndexController($app->getContainer()))->get($request, $response, []);
+    return (new \Fearandgreed\Controller\IndexController($app->getContainer()))->get($request, $response);
 });
 $app->get('/health', function (Request $request, Response $response, $args) use ($app) {
-    return (new \Fearandgreed\Controller\HealthController($app->getContainer()))->health($request, $response, []);
+    return (new \Fearandgreed\Controller\HealthController($app->getContainer()))->health($request, $response);
 });
 
 // Run app

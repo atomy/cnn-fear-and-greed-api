@@ -19,15 +19,7 @@ fi
 
 docker run --rm -v $(pwd):/proj busybox sh -c 'chmod -R 777 /proj/logs'
 
-if [ "${1}" == "dev" ] ; then
-  docker build -f scripts/docker/php/Dockerfile_dev -t atomy/cnn-fear-and-greed-php .
-elif [ "${1}" != "" ] ; then
-  echo "Invalid env ${1} given!"
-  exit 1
-else
-  docker build -f scripts/docker/php/Dockerfile -t atomy/cnn-fear-and-greed-php .
-fi
-
+docker build -f scripts/docker/php/Dockerfile -t atomy/cnn-fear-and-greed-php .
 docker build -f scripts/docker/nginx/Dockerfile -t atomy/cnn-fear-and-greed-nginx .
 
 docker run -v $(pwd):/var/www -w /var/www atomy/cnn-fear-and-greed-php php composer.phar install

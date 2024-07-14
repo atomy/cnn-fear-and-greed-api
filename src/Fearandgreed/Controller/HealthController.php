@@ -20,14 +20,13 @@ class HealthController
      *
      * @param Request $request
      * @param Response $response
-     * @param array $args
      * @return Response
      * @throws GuzzleException
      */
-    public function health(Request $request, Response $response, array $args): Response
+    public function health(Request $request, Response $response): Response
     {
-        $response->getBody()->write(json_encode(['result' => 'okay'], JSON_THROW_ON_ERROR, 512));
-        $response = $response->withStatus(200);
-        return $response;
+        $response->getBody()->write(json_encode(['result' => 'okay'], JSON_THROW_ON_ERROR));
+
+        return $response->withStatus(200);
     }
 }

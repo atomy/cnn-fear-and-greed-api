@@ -1,12 +1,10 @@
-version: "3"
-
 services:
   cnn-fear-and-greed-php:
     image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-php:latest
     volumes:
       - php-sock:/sock
     environment:
-      - CNN_SITE=https://money.cnn.com/data/fear-and-greed/
+      - CNN_SITE=https://production.dataviz.cnn.io/index/fearandgreed/graphdata/
 
   cnn-fear-and-greed-nginx:
     image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-nginx:latest

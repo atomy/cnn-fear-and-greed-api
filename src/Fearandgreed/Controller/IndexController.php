@@ -36,11 +36,10 @@ class IndexController
      *
      * @param Request $request
      * @param Response $response
-     * @param array $array
      * @return Response
      * @throws \JsonException
      */
-    public function get(Request $request, Response $response, array $array)
+    public function get(Request $request, Response $response): Response
     {
         $this->container->getLogger()->info('Requesting fear-and-greed-index from page...');
 

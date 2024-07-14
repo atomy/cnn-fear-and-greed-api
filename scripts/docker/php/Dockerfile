@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # Install packages we want to keep
 RUN apk --no-cache add \
@@ -19,6 +19,7 @@ RUN set -xe \
 COPY . /var/www
 
 COPY ./scripts/docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./scripts/docker/php/php.ini /usr/local/etc/php/conf.d/additional-php.ini
 
 # Add nginx user for unix socket permission
 RUN addgroup -S nginx \
