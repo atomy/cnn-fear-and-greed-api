@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                timeout(unit: 'SECONDS', time: 120) {
+                timeout(unit: 'SECONDS', time: 300) {
                     withCredentials([string(credentialsId: 'ecr-prefix', variable: 'ECR_PREFIX'),
                         string(credentialsId: 'discord-webhook-release-url', variable: 'DISCORD_WEBHOOK_URL'),
                         string(credentialsId: 'cnn-fear-greed-api-deploy-host', variable: 'DEPLOY_HOST'),
