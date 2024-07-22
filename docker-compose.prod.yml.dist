@@ -5,6 +5,7 @@ services:
       - php-sock:/sock
     environment:
       - CNN_SITE=https://production.dataviz.cnn.io/index/fearandgreed/graphdata/
+    restart: always
 
   cnn-fear-and-greed-nginx:
     image: xxxx.dkr.ecr.eu-central-1.amazonaws.com/atomy/cnn-fear-and-greed-nginx:latest
@@ -24,6 +25,7 @@ services:
       interval: 10s
       timeout: 30s
       retries: 3
+    restart: always
 
 volumes:
   php-sock:
